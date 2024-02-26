@@ -16,7 +16,11 @@ div.container#main-container {
 
 #rating_container {
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
+}
+
+#rating_container > * {
+  padding: 20px;
 }
 
 div.container.container-style {
@@ -175,6 +179,7 @@ input[type='range'] {
   cursor: pointer;
   text-decoration: none;
   transition: background-color 0.3s ease;
+  margin-top: 15px;
 }
 
 .btn:hover {
@@ -259,3 +264,37 @@ input[type='range'] {
   margin-bottom: -20px;
   margin-top: -8px;
   }
+
+  ul.styled-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin-top: 15px;
+}
+
+ul.styled-list > * {
+  margin-bottom: 10px;
+}
+
+ul.styled-list li {
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 30px;
+    padding: 5px 10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+ul.styled-list li:last-child {
+    border-bottom: none;
+}
+
+ul.styled-list li:hover {
+    background-color: #f0f0f9;
+    cursor: pointer;
+}

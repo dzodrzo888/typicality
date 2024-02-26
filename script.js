@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
         //Start of the study - personal information page
         document.querySelector('#main-container').style.display = 'none';
         document.querySelector('#first-screen').style.display = 'flex';
+        document.querySelector('#instrukce_div').style.display = 'none';
         
         let countries = [" ", "Abcházie","Afghánistán","Alandy (Finsko)","Albánie","Alžírsko","Americká Samoa (USA)","Americké Panenské ostrovy (USA)","Andorra","Angola","Anguilla (Velká Británie)","Antigua a Barbuda","Argentina","Arménie","Aruba (Nizozemsko)","Austrálie","Ázerbájdžán","Bahamy","Bahrajn","Bangladéš","Barbados","Belgie","Belize","Bělorusko","Benin","Bermudy (Velká Británie)","Bhútán","Bolívie","Bosna a Hercegovina","Botswana","Brazílie","Britské Panenské ostrovy (Velká Británie)","Brunej","Bulharsko","Burkina Faso","Burundi","Čad","Černá Hora","Česko","Chile","Chorvatsko","Čína","Cookovy ostrovy (Nový Zéland)","Curaçao (Nizozemsko)","Dánsko","Dominika","Dominikánská republika","Džibutsko","Egypt","Ekvádor","Eritrea","Estonsko","Etiopie","Faerské ostrovy (Dánsko)","Falklandy (Velká Británie)","Fidži","Filipíny","Finsko","Francie","Francouzská Guyana (Francie)","Francouzská Polynésie (Francie)","Gabon","Gambie","Ghana","Gibraltar (Velká Británie)","Grenada","Grónsko (Dánsko)","Gruzie","Guadeloupe (Francie)","Guam (USA)","Guatemala","Guernsey (Velká Británie)","Guinea","Guinea-Bissau","Guyana","Haiti","Honduras","Hongkong (Čína)","Indie","Indonésie","Irák","Írán","Irsko","Island","Itálie","Izrael","Jamajka","Japonsko","Jemen","Jersey (Velká Británie)","Jižní Afrika","Jižní Korea","Jižní Osetie","Jižní Súdán","Jordánsko","Kajmanské ostrovy (Velká Británie)","Kambodža","Kamerun","Kanada","Kapverdy","Karibské Nizozemsko (Nizozemsko)","Katar","Kazachstán","Keňa","Kiribati","Kokosové ostrovy (Austrálie)","Kolumbie","Komory","Konžská demokratická republika","Konžská republika","Kosovo","Kostarika","Kuba","Kuvajt","Kypr","Kyrgyzstán","Laos","Lesotho","Libanon","Libérie","Libye","Lichtenštejnsko","Litva","Lotyšsko","Lucembursko","Macao (Čína)","Madagaskar","Maďarsko","Malajsie","Malawi","Maledivy","Mali","Malta","Man (Velká Británie)","Maroko","Marshallovy ostrovy","Martinik (Francie)","Mauricius","Mauritánie","Mayotte (Francie)","Mexiko","Mikronésie","Moldavsko","Monako","Mongolsko","Montserrat (Velká Británie)","Mosambik","Myanmar (Barma)","Namibie","Nauru","Německo","Nepál","Niger","Nigérie","Nikaragua","Niue (Nový Zéland)","Nizozemsko","Norfolk (Austrálie)","Norsko","Nová Kaledonie (Francie)","Nový Zéland","Omán","Pákistán","Palau","Palestinská autonomie","Panama","Papua Nová Guinea","Paraguay","Peru","Pitcairnovy ostrovy (Velká Británie)","Pobřeží slonoviny","Polsko","Portoriko (USA)","Portugalsko","Rakousko","Řecko","Réunion (Francie)","Rovníková Guinea","Rumunsko","Rusko","Rwanda","Saint Pierre a Miquelon (Francie)","Šalomounovy ostrovy","Salvador","Samoa","San Marino","Saúdská Arábie","Senegal","Severní Korea","Severní Makedonie","Severní Mariany (USA)","Seychely","Sierra Leone","Singapur","Slovensko","Slovinsko","Somálsko","Španělsko","Špicberky a Jan Mayen (Norsko)","Spojené arabské emiráty","Spojené království","Spojené státy americké","Srbsko","Srí Lanka","Středoafrická republika","Súdán","Surinam","Svatá Helena, Ascension a Tristan da Cunha (Velká Británie)","Svatá Lucie","Svatý Bartoloměj (Francie)","Svatý Kryštof a Nevis","Svatý Martin (francouzská část) (Francie)","Svatý Martin (nizozemská část) (Nizozemsko)","Svatý Tomáš a Princův ostrov","Svatý Vincenc a Grenadiny","Svazijsko","Švédsko","Švýcarsko","Sýrie","Tádžikistán","Tanzanie","Tchaj-wan","Thajsko","Togo","Tokelau (Nový Zéland)","Tonga","Trinidad a Tobago","Tunisko","Turecko","Turkmenistán","Turks a Caicos (Velká Británie)","Tuvalu","Uganda","Ukrajina","Uruguay","Uzbekistán","Vánoční ostrov (Austrálie)","Vanuatu","Vatikán","Venezuela","Vietnam","Východní Timor","Wallis a Futuna (Francie)","Zambie","Západní Sahara","Zimbabwe"]
         let select = document.getElementById('zeme');
@@ -33,15 +34,16 @@ document.addEventListener("DOMContentLoaded", function () {
         let selected_descriptions = selectDescriptions(kategories, category, 3);
         
         function instructions_shower() {
-        console.log(selected_descriptions)
+        document.querySelector('#instrukce_div').style.display = 'block';
         let instrukce_div = document.querySelector('#instrukce_div')
         let instructions = document.createElement('div');
         instructions.id = "instructions"
         instrukce_div.appendChild(instructions)
         instructions.innerHTML = 'Zde uvidíte několik kategorií dle kterých budete hodnotit obrázky. Každá kategorie má svůj popis, který vám pomůže při hodnocení. Po přečtení jednotlivých popisů stiskněte tlačítko "Začít výzkum" a začněte hodnotit obrázky.';
         instructions.classList.add('container');
-        instructions.classList.add('container-style')
+        instructions.classList.add('container-style');
         let list = document.createElement('ul');
+        list.classList.add('styled-list');
         let descriptions = selected_descriptions;
         for (let i = 0; i<descriptions.length; i++) {
             let description = descriptions[i];
@@ -73,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         function main_shower() {    
         document.querySelector('#main-container').style.display = 'flex';
-        document.querySelector('#instructions').style.display = 'none';
+        document.querySelector('#instrukce_div').style.display = 'none';
         let progressBar = document.getElementById('progressBar');
         let progressText = document.getElementById('progressText');
         let hodnoceni = document.createElement('span');
@@ -100,11 +102,13 @@ document.addEventListener("DOMContentLoaded", function () {
             rating_container.id = 'rating_container';
             container.appendChild(rating_container);
             let bigsliderDiv = document.createElement('div');
+            bigsliderDiv.id = 'bigsliderDiv';
             rating_container.appendChild(bigsliderDiv);
             rating_container.classList.add('container');
             rating_container.classList.add('container-style')
             let path = category + '/';
             let image_container = document.createElement('div');
+            image_container.id = 'image_container';
             let imgElement = document.createElement('img');
             let image = image_array[index].image;
             console.log(path + image)
@@ -245,22 +249,26 @@ document.addEventListener("DOMContentLoaded", function () {
     function selectFromAll(images, numImages, category) {
         let categoryImages = images[category];
         let selectedImages = [];
-        for(let i = 0; i < numImages; i++){
+        while(selectedImages.length < numImages){
             let index = Math.floor(Math.random() * categoryImages.length);
             let selectedImage = categoryImages[index];
-            categoryImages.splice(index, 1);
-
-            selectedImages.push({image : selectedImage, category: category});
+            if (!selectedImages.some(img => img.image === selectedImage)) {
+                categoryImages.splice(index, 1);
+                selectedImages.push({image : selectedImage, category: category});
+            }
         }
         return selectedImages;
     }
-    
+
     function selectDescriptions(descriptions, category, num_descriptions) {
-        let array = []
-        for (let i = 0; i < num_descriptions; i++){
+        let array = [];
+        while(array.length < num_descriptions){
             let keys = Object.keys(descriptions[category]);
             let randomKey = keys[Math.floor(Math.random() * keys.length)];
-            array.push({category: randomKey, description: descriptions[category][randomKey]})
+            let description = {category: randomKey, description: descriptions[category][randomKey]};
+            if (!array.some(desc => desc.description === description.description)) {
+                array.push(description);
+            }
         }
         return array;
     }
