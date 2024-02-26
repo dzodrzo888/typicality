@@ -27,11 +27,12 @@ document.addEventListener("DOMContentLoaded", function () {
         final_values = {}
         final_values['vek'] = vekValue;
         final_values['zeme'] = zemeValue;
-        
-        function instructions_shower() {
         let kategories = new_dict["kategorie"]
+        let images_select = new_dict["obrázky"]
         let category = get_category(images_select);
         let selected_descriptions = selectDescriptions(kategories, category, 3);
+        
+        function instructions_shower() {
         console.log(selected_descriptions)
         let instrukce_div = document.querySelector('#instrukce_div')
         let instructions = document.createElement('div');
@@ -80,8 +81,8 @@ document.addEventListener("DOMContentLoaded", function () {
         let category = get_category(images_select);
         let number_of_images = 180
         let selected_images = selectFromAll(images_select, number_of_images, category);
-
-        image_slider(selected_images);
+        index = 0;
+        image_slider(selected_images, category, index);
         
         function updateProgressBar(currentIndex, progressBar) {
             let progress = (currentIndex / number_of_images) * 100;
@@ -89,30 +90,35 @@ document.addEventListener("DOMContentLoaded", function () {
             progressText.textContent = progress.toFixed(0) + '%';
         }
 
-        function image_slider(image, category) {
-        
+        function image_slider(image_array, category, index) {
+
+
             hodnoceni.id = 'nadpisy'
             hodnoceni.innerHTML = '<h2>Hodnocení obrázků<h2>';
             container.appendChild(hodnoceni);
-            
+
             rating_container.id = 'rating_container';
             container.appendChild(rating_container);
+            let bigsliderDiv = document.createElement('div');
+            rating_container.appendChild(bigsliderDiv);
             rating_container.classList.add('container');
             rating_container.classList.add('container-style')
             let path = category + '/';
             let image_container = document.createElement('div');
             let imgElement = document.createElement('img');
+            let image = image_array[index].image;
+            console.log(path + image)
             imgElement.src = path + image; 
             imgElement.width = 700;  
             imgElement.height = 600; 
             image_container.appendChild(imgElement);
             rating_container.appendChild(image_container);
 
-            for (let i = 0; i<descriptions.length; i++) {
+            for (let i = 0; i<selected_descriptions.length; i++) {
             let label_container = document.createElement('div');
             label_container.id = 'label_container';
-            rating_container.appendChild(label_container);
-            let description = descriptions[i];
+            bigsliderDiv.appendChild(label_container);
+            let description = selected_descriptions[i];
             let description_category = description['category'];
             description_category = description_category.charAt(0).toUpperCase() + description_category.slice(1, -1);
             let sliderLabel = document.createElement('label');
@@ -126,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let sliderDiv = document.createElement('div');
             sliderDiv.style.position = 'relative';
             sliderDiv.className = 'sliderDiv';
-            rating_container.appendChild(sliderDiv);
+            bigsliderDiv.appendChild(sliderDiv);
 
             // Create a range input (slider)
             let slider = document.createElement('input');
@@ -192,12 +198,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 jatos.appendResultData(final_values);
                 console.log(final_values)
                 index --;
-                image_slider(selected, index);
+                image_slider(selected_images, category, index);
                 updateProgressBar(index, progressBar);
             };
             } 
 
-            if (index < selected.length - 1) {
+            if (index < selected_images.length - 1) {
                 let nextButton = document.createElement('button');
                 nextButton.innerHTML = 'Další obrázek';
                 nextButton.id = 'nextButton';
@@ -210,12 +216,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     jatos.appendResultData(final_values);
                     console.log(final_values)
                     index ++;
-                    image_slider(selected, index);
+                    image_slider(selected_images, category, index);
                     updateProgressBar(index, progressBar);
                 };
                 }
         
-                if (index == selected.length - 1) {
+                if (index == selected_images.length - 1) {
                     let submitButton = document.createElement('button');
                     submitButton.innerHTML = 'Odevzdejte výseledky';
                     submitButton.id = 'submitButton';
@@ -244,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let selectedImage = categoryImages[index];
             categoryImages.splice(index, 1);
 
-            selectedImages.push({category : selectedImage});
+            selectedImages.push({image : selectedImage, category: category});
         }
         return selectedImages;
     }

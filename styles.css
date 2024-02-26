@@ -10,8 +10,13 @@ div.container#main-container {
     margin: 10px;
     border-radius: 10px;
     min-width: 65%;
-    max-width: 65%;
+    max-width: 90%;
     overflow: auto;
+}
+
+#rating_container {
+  display: flex;
+  flex-direction: row;
 }
 
 div.container.container-style {
