@@ -79,8 +79,6 @@ document.addEventListener("DOMContentLoaded", function () {
         let progressBar = document.getElementById('progressBar');
         let progressText = document.getElementById('progressText');
         let hodnoceni = document.createElement('span');
-        let images_select = new_dict["obrázky"]
-        let category = get_category(images_select);
         let number_of_images = 180
         let selected_images = selectFromAll(images_select, number_of_images, category);
         index = 0;
@@ -113,8 +111,8 @@ document.addEventListener("DOMContentLoaded", function () {
             let image = image_array[index].image;
             console.log(path + image)
             imgElement.src = path + image; 
-            imgElement.width = 700;  
-            imgElement.height = 600; 
+            imgElement.width = 600;  
+            imgElement.height = 500; 
             image_container.appendChild(imgElement);
             rating_container.appendChild(image_container);
 
