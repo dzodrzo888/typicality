@@ -104,8 +104,8 @@ document.addEventListener("DOMContentLoaded", function () {
             rating_container.appendChild(bigsliderDiv);
             rating_container.classList.add('container');
             rating_container.classList.add('container-style')
-            let path = 'img' +category + '/';
-            let image_contain er = document.createElement('div');
+            let path = 'img/' + category + '/';
+            let image_container = document.createElement('div');
             image_container.id = 'image_container';
             let imgElement = document.createElement('img');
             let image = image_array[index].image;
