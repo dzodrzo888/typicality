@@ -1,0 +1,242 @@
+---
+title: "Analysis of inter-rater reliability"
+author: "Filip Dechterenko"
+format: 
+  html:
+    toc: true
+    code-fold: true
+    message: false
+    warning: false
+    embed-resources: true
+editor: visual
+tbl-cap-location: bottom
+---
+
+# Description
+
+In this project, we several people generate rules for comparing between images. Jiri Pesek coded these values into categories and we let three students to categorize each response into the newly formed set of categories. Here we show analysis of such data. 
+
+```{r load data}
+library(here)
+library(tidyverse)
+library(gt)
+library(patchwork)
+library(readxl)
+
+bedroom_SJ <- read_xlsx(here("data","features_reliability","obyvak_clean_ŠJ.xlsx"))
+bedroom_JS <- read_xlsx(here("data","features_reliability","obyvak_clean_JS.xlsx"))
+bedroom_EK <- read_xlsx(here("data","features_reliability","obyvak_clean_EK.xlsx"))
+
+kitchen_SJ <- read_xlsx(here("data","features_reliability","kuchyne_clean_ŠJ.xlsx"))
+kitchen_JS <- read_xlsx(here("data","features_reliability","kuchyne_clean_JS.xlsx"))
+kitchen_EK <- read_xlsx(here("data","features_reliability","kuchyne_clean_EK.xlsx"))
+
+living_room_SJ <- read_xlsx(here("data","features_reliability","obyvak_clean_ŠJ.xlsx"))
+living_room_JS <- read_xlsx(here("data","features_reliability","obyvak_clean_JS.xlsx"))
+living_room_EK <- read_xlsx(here("data","features_reliability","obyvak_clean_EK.xlsx"))
+
+features_description <- read_xlsx(here("data","features_reliability","features_descriptions.xlsx"))
+
+
+```
+
+# Inter-rater reliability
+
+We use Fleiss' Kappa to measure inter-rater reliability. This measure is used to assess the degree of agreement between two or more raters when the data are categorical. 
+
+```{r inter-rater reliability}
+irr_bed <- irr::kappam.fleiss(cbind(bedroom_SJ$category, bedroom_JS$category, bedroom_EK$category))
+irr_kit <- irr::kappam.fleiss(cbind(kitchen_SJ$category, kitchen_JS$category, kitchen_EK$category))
+irr_liv <- irr::kappam.fleiss(cbind(living_room_SJ$category, living_room_JS$category, living_room_EK$category))
+
+```
+
+Inter rater reliability was good:
+
+* bedroom: `r irr_bed$value %>% round(2)`
+* kitchen: `r irr_kit$value %>% round(2)`
+* living room: `r irr_liv$value %>% round(2)`
+
+# Percentage of responses that raters agreed (either all three or just two)
+
+Given we have responses categorized into separate response categories, we could compute, how many of original responses would be coded by this system. Either all three raters could agree, or two out of three. For three raters, almost all responses were coded by this system. For two raters, the percentage is lower, but still high. 
+
+```{r}
+living_rooms <- living_room_EK %>% 
+  select(session,answers, category) %>% 
+  rename(EK = category) %>% 
+  left_join(living_room_JS %>% select(session,answers,category) %>% rename(JS = category), by = join_by(session, answers)) %>%
+  left_join(living_room_SJ %>% select(session,answers,category) %>% rename(SJ = category), by = join_by(session, answers)) %>% 
+  mutate(category = "living_room")
+  
+kitchens <- kitchen_EK %>%
+  select(session,answers, category) %>% 
+  rename(EK = category) %>% 
+  left_join(kitchen_JS %>% select(session,answers,category) %>% rename(JS = category), by = join_by(session, answers)) %>%
+  left_join(kitchen_SJ %>% select(session,answers,category) %>% rename(SJ = category), by = join_by(session, answers)) %>% 
+  mutate(category = "kitchen")
+
+bedrooms <- bedroom_EK %>% 
+  select(session,answers, category) %>% 
+  rename(EK = category) %>% 
+  left_join(bedroom_JS %>% select(session,answers,category) %>% rename(JS = category), by = join_by(session, answers)) %>%
+  left_join(bedroom_SJ %>% select(session,answers,category) %>% rename(SJ = category), by = join_by(session, answers)) %>% 
+  mutate(category = "bedroom")
+
+categories <- bind_rows(living_rooms, kitchens, bedrooms) %>% 
+  mutate(all_equal = ifelse(EK == JS & JS == SJ, "yes", "no"),
+         two_equal = ifelse(EK == JS | JS == SJ | EK == SJ, "yes", "no"))
+
+categories %>% 
+  group_by(category) %>%
+  summarize(perc_response_all = mean(all_equal == "yes", na.rm = T),
+            perc_response_two = mean(two_equal == "yes", na.rm = T)) %>% 
+  gt() %>% 
+  tab_header(title = "Percentage of responses that raters agreed (either all three or just two)") %>% 
+  fmt_percent()
+```
+
+# Labels of categories
+
+Ok, now we analyze which labels do we actually have and how many people mentioned that rule.
+
+```{r prepare data for rating labels}
+
+all_eq <- categories %>%
+  filter(all_equal == "yes") %>% 
+  mutate(rating_category = EK) %>% 
+  select(-EK,-JS,-SJ,-all_equal,-two_equal)
+
+two_eq <- categories %>%
+  filter(two_equal == "yes") %>% 
+  mutate(rating_category = EK) %>% 
+  select(-EK,-JS,-SJ,-all_equal,-two_equal)
+
+
+rating_labels_all <- all_eq %>% 
+  left_join(features_description, by = join_by(category, rating_category))
+
+rating_labels_two <- all_eq %>% 
+  left_join(features_description, by = join_by(category, rating_category))
+
+
+```
+
+## All three raters agreed
+
+Here we show data, in which all three raters agreed. We show individual labels for each category separately.
+
+```{r}
+tab1_all <- rating_labels_all %>% 
+  group_by(category, rating_label) %>% 
+  summarize(n = n(), .groups = "drop") %>%
+  mutate(p = n/n()) %>% 
+  arrange(-n,.by_group = T)
+
+tab1_all %>% 
+  ungroup() %>% 
+  filter(category == "living_room") %>%
+  gt() %>%
+  tab_header(title = "Labels of categories in living room", subtitle = "All three raters agreed") %>% 
+  fmt_percent(columns = p)
+
+tab1_all %>% 
+  ungroup() %>% 
+  filter(category == "bedroom") %>%
+  gt() %>%
+  tab_header(title = "Labels of categories in bedroom", subtitle = "All three raters agreed") %>% 
+  fmt_percent(columns = p)
+
+tab1_all %>% 
+  ungroup() %>% 
+  filter(category == "kitchen") %>%
+  gt() %>%
+  tab_header(title = "Labels of categories in kitchen", subtitle = "All three raters agreed") %>% 
+  fmt_percent(columns = p)
+
+```
+
+### How many ratings we should select
+
+This is a huge number of ratings. We need to select some smaller number. Let's create some cutoffs and select only ratings which were mentioned by given number of participants.
+
+```{r}
+cut_offs <- tibble(cutoff = c(0.2,0.15,0.1,0.08,0.05))
+tab1_cutoffs_all <- expand_grid(cut_offs,tab1_all)
+tab1_cutoffs_all %>% 
+  group_by(category, cutoff) %>% 
+  summarize(n = sum(p > cutoff)) %>% 
+  gt() %>%
+  tab_header("Number of ratings that were mentioned by given percentage of people") %>% 
+  fmt_percent(columns = cutoff)
+```
+
+I think that 10% seems ok.
+
+## Two out of three raters agreed
+
+Here we show data, in which all two out of three raters agreed. We show individual labels for each category separately.
+
+```{r}
+tab1_two <- rating_labels_two %>% 
+  group_by(category, rating_label) %>% 
+  summarize(n = n(), .groups = "drop") %>%
+  mutate(p = n/n()) %>% 
+  arrange(-n,.by_group = T)
+
+tab1_two %>% 
+  ungroup() %>% 
+  filter(category == "living_room") %>%
+  gt() %>%
+  tab_header(title = "Labels of categories in living room", subtitle = "TWo out of three raters agreed") %>% 
+  fmt_percent(columns = p)
+
+tab1_two %>% 
+  ungroup() %>% 
+  filter(category == "bedroom") %>%
+  gt() %>%
+  tab_header(title = "Labels of categories in bedroom", subtitle = "TWo out of three raters agreed") %>% 
+  fmt_percent(columns = p)
+
+tab1_two %>% 
+  ungroup() %>% 
+  filter(category == "kitchen") %>%
+  gt() %>%
+  tab_header(title = "Labels of categories in kitchen", subtitle = "TWo out of three raters agreed") %>% 
+  fmt_percent(columns = p)
+
+```
+
+### How many ratings we should select
+
+```{r}
+cut_offs <- tibble(cutoff = c(0.3,0.25,0.2,0.15,0.1,0.08,0.05))
+tab1_cutoffs_two <- expand_grid(cut_offs,tab1_two)
+tab1_cutoffs_two %>% 
+  group_by(category, cutoff) %>% 
+  summarize(n = sum(p > cutoff)) %>% 
+  gt() %>%
+  tab_header("Number of ratings that were mentioned by given percentage of people") %>% 
+  fmt_percent(columns = cutoff)
+
+final_n <- tab1_two %>% 
+  group_by(category) %>% 
+  arrange(-n, .by_group = T) %>%
+  slice_head(n=9) %>% 
+  slice_tail(n=1) %>% 
+  select(-n,-rating_label)
+  
+```
+
+Again, 10 percent seems ok?
+
+# Summarize
+
+Based on the results, I suggest to use only ratings that were mentioned by approximate 10% of participants. We will select 9 ratings per category, which would lead to similar percentages:
+
+```{r}
+final_n %>% 
+  ungroup() %>% 
+  gt() %>% 
+  fmt_percent(col = p)
+```
