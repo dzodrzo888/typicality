@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector('#main-container').style.display = 'none';
         document.querySelector('#first-screen').style.display = 'flex';
         document.querySelector('#instrukce_div').style.display = 'none';
+        document.querySelector('#example_div').style.display = 'none';
         
         let countries = [" ", "Abcházie","Afghánistán","Alandy (Finsko)","Albánie","Alžírsko","Americká Samoa (USA)","Americké Panenské ostrovy (USA)","Andorra","Angola","Anguilla (Velká Británie)","Antigua a Barbuda","Argentina","Arménie","Aruba (Nizozemsko)","Austrálie","Ázerbájdžán","Bahamy","Bahrajn","Bangladéš","Barbados","Belgie","Belize","Bělorusko","Benin","Bermudy (Velká Británie)","Bhútán","Bolívie","Bosna a Hercegovina","Botswana","Brazílie","Britské Panenské ostrovy (Velká Británie)","Brunej","Bulharsko","Burkina Faso","Burundi","Čad","Černá Hora","Česko","Chile","Chorvatsko","Čína","Cookovy ostrovy (Nový Zéland)","Curaçao (Nizozemsko)","Dánsko","Dominika","Dominikánská republika","Džibutsko","Egypt","Ekvádor","Eritrea","Estonsko","Etiopie","Faerské ostrovy (Dánsko)","Falklandy (Velká Británie)","Fidži","Filipíny","Finsko","Francie","Francouzská Guyana (Francie)","Francouzská Polynésie (Francie)","Gabon","Gambie","Ghana","Gibraltar (Velká Británie)","Grenada","Grónsko (Dánsko)","Gruzie","Guadeloupe (Francie)","Guam (USA)","Guatemala","Guernsey (Velká Británie)","Guinea","Guinea-Bissau","Guyana","Haiti","Honduras","Hongkong (Čína)","Indie","Indonésie","Irák","Írán","Irsko","Island","Itálie","Izrael","Jamajka","Japonsko","Jemen","Jersey (Velká Británie)","Jižní Afrika","Jižní Korea","Jižní Osetie","Jižní Súdán","Jordánsko","Kajmanské ostrovy (Velká Británie)","Kambodža","Kamerun","Kanada","Kapverdy","Karibské Nizozemsko (Nizozemsko)","Katar","Kazachstán","Keňa","Kiribati","Kokosové ostrovy (Austrálie)","Kolumbie","Komory","Konžská demokratická republika","Konžská republika","Kosovo","Kostarika","Kuba","Kuvajt","Kypr","Kyrgyzstán","Laos","Lesotho","Libanon","Libérie","Libye","Lichtenštejnsko","Litva","Lotyšsko","Lucembursko","Macao (Čína)","Madagaskar","Maďarsko","Malajsie","Malawi","Maledivy","Mali","Malta","Man (Velká Británie)","Maroko","Marshallovy ostrovy","Martinik (Francie)","Mauricius","Mauritánie","Mayotte (Francie)","Mexiko","Mikronésie","Moldavsko","Monako","Mongolsko","Montserrat (Velká Británie)","Mosambik","Myanmar (Barma)","Namibie","Nauru","Německo","Nepál","Niger","Nigérie","Nikaragua","Niue (Nový Zéland)","Nizozemsko","Norfolk (Austrálie)","Norsko","Nová Kaledonie (Francie)","Nový Zéland","Omán","Pákistán","Palau","Palestinská autonomie","Panama","Papua Nová Guinea","Paraguay","Peru","Pitcairnovy ostrovy (Velká Británie)","Pobřeží slonoviny","Polsko","Portoriko (USA)","Portugalsko","Rakousko","Řecko","Réunion (Francie)","Rovníková Guinea","Rumunsko","Rusko","Rwanda","Saint Pierre a Miquelon (Francie)","Šalomounovy ostrovy","Salvador","Samoa","San Marino","Saúdská Arábie","Senegal","Severní Korea","Severní Makedonie","Severní Mariany (USA)","Seychely","Sierra Leone","Singapur","Slovensko","Slovinsko","Somálsko","Španělsko","Špicberky a Jan Mayen (Norsko)","Spojené arabské emiráty","Spojené království","Spojené státy americké","Srbsko","Srí Lanka","Středoafrická republika","Súdán","Surinam","Svatá Helena, Ascension a Tristan da Cunha (Velká Británie)","Svatá Lucie","Svatý Bartoloměj (Francie)","Svatý Kryštof a Nevis","Svatý Martin (francouzská část) (Francie)","Svatý Martin (nizozemská část) (Nizozemsko)","Svatý Tomáš a Princův ostrov","Svatý Vincenc a Grenadiny","Svazijsko","Švédsko","Švýcarsko","Sýrie","Tádžikistán","Tanzanie","Tchaj-wan","Thajsko","Togo","Tokelau (Nový Zéland)","Tonga","Trinidad a Tobago","Tunisko","Turecko","Turkmenistán","Turks a Caicos (Velká Británie)","Tuvalu","Uganda","Ukrajina","Uruguay","Uzbekistán","Vánoční ostrov (Austrálie)","Vanuatu","Vatikán","Venezuela","Vietnam","Východní Timor","Wallis a Futuna (Francie)","Zambie","Západní Sahara","Zimbabwe"]
         let select = document.getElementById('zeme');
@@ -32,50 +33,170 @@ document.addEventListener("DOMContentLoaded", function () {
         let images_select = new_dict["obrázky"]
         let category = get_category(images_select);
         let selected_descriptions = selectDescriptions(kategories, category, 3);
-        
+
         function instructions_shower() {
         document.querySelector('#instrukce_div').style.display = 'block';
         let instrukce_div = document.querySelector('#instrukce_div')
         let instructions = document.createElement('div');
         instructions.id = "instructions"
         instrukce_div.appendChild(instructions)
-        instructions.innerHTML = 'Zde uvidíte několik kategorií dle kterých budete hodnotit obrázky. Každá kategorie má svůj popis, který vám pomůže při hodnocení. Po přečtení jednotlivých popisů stiskněte tlačítko "Začít výzkum" a začněte hodnotit obrázky.';
+        instructions.innerHTML = 'Vítáme Vás v experimentu, který se zaměřuje na hodnocení místností. V tomto experimentu bude Vaším úkolem hodnotit obrázky místností dle tří různých kategorií na škále od 0 do 100. Klikněte prosím na tlačítko "Pokračovat" na další stránce se Vám objeví ukázka, jak hodnocení obrázku bude probíhat. Poté se Vám objeví jednotlivé kategorie dle kterých budete hodnotit';
         instructions.classList.add('container');
         instructions.classList.add('container-style');
-        let list = document.createElement('ul');
-        list.classList.add('styled-list');
-        let descriptions = selected_descriptions;
-        for (let i = 0; i<descriptions.length; i++) {
-            let description = descriptions[i];
-            let label = document.createElement('label');
-            let description_category = description['category'];
-            description_category = description_category.charAt(0).toUpperCase() + description_category.slice(1, -1);
-
-            let span = document.createElement('span');
-            span.classList.add('category_type');
-            span.textContent = description_category;
-
-            label.appendChild(span);
-            label.innerHTML += ': ' + description['description'];
-
-            let listItem = document.createElement('li'); // Create a li element
-            listItem.appendChild(label); // Append the label to the li element
-            list.appendChild(listItem); // Append the li element to the ul element
-        }
-
-        instructions.appendChild(list); // Append the ul element to the instructions
+        instructions.style.fontSize = '20px';
         let instructions_button = document.createElement('button');
-        instructions_button.innerHTML = 'Začít výzkum';
+        instructions_button.innerHTML = 'Pokračovat';
         instructions_button.id = 'instructions-button';
         instructions_button.classList.add('btn');
-        instructions.appendChild(instructions_button);
-        document.getElementById('instructions-button').addEventListener('click', main_shower);
+        instrukce_div.appendChild(instructions_button);
+        document.getElementById('instructions-button').addEventListener('click', example_shower);
         document.querySelector('#first-screen').style.display = 'none';
         }
         
+        function example_shower() {
+        document.querySelector('#example_div').style.display = 'flex';
+        document.querySelector('#instrukce_div').style.display = 'none';
+        document.querySelector('#main-container').style.display = 'none';
+        let example_div = document.querySelector('#example_div')
+        let example = document.createElement('div');
+        example_div.appendChild(example);
+        let text1 = document.createElement('p');
+        text1.innerHTML = 'Představte si, že dostanete za úkol hodnotit dle kategorie kočkovitost. Popisek pro tuto kategorii by byl: Představte si, že musíte ohodnotit místnost na škále kočkovitosti od 0 do 100. Kočkovitost odkazuje na míru kočičí dekore a vytváření kočičí atmosféry v místnosti. 0 značí absence dekorace s kočičí tématikou. Místnost nepůsobí kočičím dojmem. 100 Značí maximální kočkovitost. Místnost je plná kočičích dekorací a kočičí tématiky.';
+        example.appendChild(text1);
+        let text2 = document.createElement('p');
+        example.appendChild(text2);
+        text2.innerHTML = 'Na levé straně vidité obrázek, který by měl kočkovitost 0 a na pravé straně obrázek, který by měl kočkovitost 100.'
+        example.classList.add('container');
+        example.classList.add('container-style')
+        let path1 = 'examples/';
+        let image_container1 = document.createElement('div');
+        example.appendChild(image_container1);
+        image_container1.id = 'image_container1';
+        let imgElement1 = document.createElement('img');
+        let image1 = "kocka1.gif";
+        imgElement1.src = path1 + image1; 
+        imgElement1.width = 600;  
+        imgElement1.height = 500; 
+        image_container1.appendChild(imgElement1);
+        let path2 = 'examples/';
+        let image_container2 = document.createElement('div');
+        example.appendChild(image_container1);
+        image_container2.id = 'image_container1';
+        let imgElement2 = document.createElement('img');
+        let image2 = "kocka0.jpg";
+        imgElement2.src = path2 + image2; 
+        imgElement2.width = 600;  
+        imgElement2.height = 500; 
+        image_container1.appendChild(imgElement2);
+        let example_button = document.createElement('button');
+        example_button.innerHTML = 'Pokračovat';
+        example_button.id = 'example-button';
+        example_button.classList.add('btn');
+        example_div.appendChild(example_button);
+        document.getElementById('example-button').addEventListener('click', category_shower);
+        }
+
+        function category_shower() {
+            document.querySelector('#example_div').style.display = 'none';
+            let descriptions = selected_descriptions;
+
+            descriptions.forEach((description, index) => {
+                // Create a new div for the page
+                let page = document.createElement('div');
+                page.id = `category-page-${index + 1}`; // index + 1 because array indices start at 0
+                page.style.display = 'none'; // Initially hide the page
+                page.classList.add('container');
+                page.classList.add('container-style');
+
+                // Create a heading for the category number
+                let heading = document.createElement('h2');
+                heading.textContent = `Kategorie číslo ${index + 1}`;
+                page.appendChild(heading);
+
+                // Create a new div for the description
+                let descriptionContainer = document.createElement('div');
+                descriptionContainer.classList.add('description-container');
+
+                let description_category = description['category'];
+                description_category = description_category.charAt(0).toUpperCase() + description_category.slice(1, -1);
+
+                let span = document.createElement('span');
+                span.classList.add('category_type');
+                span.style.fontSize = '20px'; // Set the font size to 20px
+                span.textContent = description_category;
+
+                let label = document.createElement('label');
+                label.appendChild(span);
+
+                // Create a new div for the actual description
+                let actualDescriptionContainer = document.createElement('div');
+                actualDescriptionContainer.style.fontSize = '20px';
+                actualDescriptionContainer.textContent = description['description']; // Removed the colon here
+
+                // Append the actual description container to the label
+                label.appendChild(actualDescriptionContainer);
+
+                // Append the label to the description container
+                descriptionContainer.appendChild(label);
+
+                // Append the description container to the page
+                page.appendChild(descriptionContainer);
+
+                // Create a "Back" button
+                if (index > 0) {
+                    let backButton = document.createElement('button');
+                    backButton.classList.add('btn');
+                    backButton.style.marginRight = '10px';
+                    backButton.textContent = 'Zpět';
+                    backButton.addEventListener('click', () => {
+                        // Hide the current page
+                        page.style.display = 'none';
+
+                        // Show the previous page
+                        let previousPage = document.querySelector(`#category-page-${index}`);
+                        if (previousPage) {
+                            previousPage.style.display = 'block';
+                        }
+                    });
+
+                    // Append the "Back" button to the page
+                    page.appendChild(backButton);
+                }
+
+                // Create a "Next" button
+                let nextButton = document.createElement('button');
+                nextButton.classList.add('btn');
+                nextButton.textContent = index === descriptions.length - 1 ? 'Začít výzkum' : 'Další';
+                nextButton.addEventListener('click', () => {
+                    // Hide the current page
+                    page.style.display = 'none';
+
+                    // Show the next page
+                    let nextPage = document.querySelector(`#category-page-${index + 2}`);
+                    if (nextPage) {
+                        nextPage.style.display = 'block';
+                    } else {
+                        // If there is no next page, run the main function
+                        main_shower();
+                    }
+                });
+
+                // Append the "Next" button to the page
+                page.appendChild(nextButton);
+
+                // Append the page to the body of the document
+                document.body.appendChild(page);
+            });
+
+            // Show the first category page
+            document.querySelector('#category-page-1').style.display = 'block';
+        }
+        
+
         function main_shower() {    
         document.querySelector('#main-container').style.display = 'flex';
         document.querySelector('#instrukce_div').style.display = 'none';
+        document.querySelector('#example_div').style.display = 'none';
         let progressBar = document.getElementById('progressBar');
         let progressText = document.getElementById('progressText');
         let hodnoceni = document.createElement('span');
@@ -109,7 +230,6 @@ document.addEventListener("DOMContentLoaded", function () {
             image_container.id = 'image_container';
             let imgElement = document.createElement('img');
             let image = image_array[index].image;
-            console.log(path + image)
             imgElement.src = path + image; 
             imgElement.width = 600;  
             imgElement.height = 500; 
@@ -231,12 +351,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     button_div.appendChild(submitButton);
                     submitButton.onclick = function() {
                         document.querySelector('#main-container').style.display = 'none';
-                        let endScreen = document.createElement('div');
-                        endScreen.innerHTML = JSON.stringify(final_values); // Your end screen message
-                        document.body.appendChild(endScreen);
-                        setTimeout(function() {
-                            jatos.endStudy();
-                        }, 5000);
+                        jatos.endStudy();
                     };
                     }
         }; 
@@ -260,6 +375,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function selectDescriptions(descriptions, category, num_descriptions) {
         let array = [];
+        console.log(descriptions)
         while(array.length < num_descriptions){
             let keys = Object.keys(descriptions[category]);
             let randomKey = keys[Math.floor(Math.random() * keys.length)];
