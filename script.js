@@ -263,8 +263,8 @@ document.addEventListener("DOMContentLoaded", function () {
             slider.max = 100;
             slider.step = 1; // Set the step to 1
             slider.value = 50; // Set the initial value
-            slider.style.width = '500px'; // Set the width to 100%
-            slider.style.height = '50px'; // Set the height to 25px
+            slider.style.width = '38vw'; // Set the width to 100%
+            slider.style.height = '10vh'; // Set the height to 25px
             sliderDiv.appendChild(slider); // Append to the sliderDiv
 
             // Create a div to display the current value
