@@ -75,8 +75,8 @@ document.addEventListener("DOMContentLoaded", function () {
         let imgElement1 = document.createElement('img');
         let image1 = "kocka1.gif";
         imgElement1.src = path1 + image1; 
-        imgElement1.width = 600;  
-        imgElement1.height = 500; 
+        imgElement1.style.width = '40vw'; 
+        imgElement1.style.height = 'auto';
         image_container1.appendChild(imgElement1);
         let path2 = 'examples/';
         let image_container2 = document.createElement('div');
@@ -85,8 +85,8 @@ document.addEventListener("DOMContentLoaded", function () {
         let imgElement2 = document.createElement('img');
         let image2 = "kocka0.jpg";
         imgElement2.src = path2 + image2; 
-        imgElement2.width = 600;  
-        imgElement2.height = 500; 
+        imgElement2.style.width = '40vw'; 
+        imgElement2.style.height = 'auto';
         image_container1.appendChild(imgElement2);
         let example_button = document.createElement('button');
         example_button.innerHTML = 'Pokračovat';
@@ -225,14 +225,14 @@ document.addEventListener("DOMContentLoaded", function () {
             rating_container.appendChild(bigsliderDiv);
             rating_container.classList.add('container');
             rating_container.classList.add('container-style')
-            let path = 'img/' + category + '/';
+            let path = category + '/';
             let image_container = document.createElement('div');
             image_container.id = 'image_container';
             let imgElement = document.createElement('img');
             let image = image_array[index].image;
             imgElement.src = path + image; 
-            imgElement.width = 600;  
-            imgElement.height = 500; 
+            imgElement.style.width = '40vw';  
+            imgElement.style.height = '30em';
             image_container.appendChild(imgElement);
             rating_container.appendChild(image_container);
 
@@ -258,12 +258,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Create a range input (slider)
             let slider = document.createElement('input');
+            console.log(sliderDiv.offsetHeight)
             slider.type = 'range';
             slider.min = 0;
             slider.max = 100;
             slider.step = 1; // Set the step to 1
             slider.value = 50; // Set the initial value
-            slider.style.width = '38vw'; // Set the width to 100%
+            slider.style.width = '35vw'; // Set the width to 100%
             slider.style.height = '10vh'; // Set the height to 25px
             sliderDiv.appendChild(slider); // Append to the sliderDiv
 

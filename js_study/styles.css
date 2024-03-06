@@ -99,9 +99,13 @@ input[type='range'] {
     -webkit-appearance: none;
     width: 100%;
     margin-top: 40px;
-    margin-bottom: 40px;
+    margin-bottom: 0.5em;
   }
-  
+
+#valueDiv {
+  margin-bottom: -1em;
+}
+
   input[type='range']::-webkit-slider-runnable-track {
     height: 10px;
     background: #d3d3d3;
@@ -146,7 +150,7 @@ input[type='range'] {
   left: 0;
   background-color: white;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 0.2em;
 }
 
 #endDiv {
@@ -155,7 +159,7 @@ input[type='range'] {
   right: 0;
   background-color: white;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 0.2em;
 }
 
 #label_container {
@@ -164,7 +168,7 @@ input[type='range'] {
   width: 100%;
   margin-top: 20px;
   font-size: 18px;
-  margin-bottom: -10px;
+  margin-bottom: -2.5em;
 }
 
 .btn {
