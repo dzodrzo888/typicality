@@ -18,9 +18,10 @@
         <select id="zeme" required></select>
         <label for="pohlavi">Pohlaví:</label>
         <select id="pohlavi" required>
+            <option value="" disabled selected>Vyberte pohlaví</option>
             <option value="muz">Muž</option>
             <option value="zena">Žena</option>
-            <option value="jiné">Jiné</option>
+            <option value="jinak">Jiné</option>
         </select>
         <button class="btn" id="start-button">Pokračovat</button>
     </div>
@@ -40,6 +41,11 @@
                 <span id="progressText"></span>
             </div>
         </div>
+    </div>
+    <div id="endScreen" class="container container-style inputs-con">
+        <h2>Děkujeme Vám za vyplnění. Výzkum je u konce</h2>
+        <input type="email" class="inputs-con" id="email" placeholder="Váš email" required>
+        <button class="btn" id="end-button">Odeslat</button>
     </div>
 </body>
 </html>
