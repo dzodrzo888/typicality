@@ -37,27 +37,57 @@ document.addEventListener("DOMContentLoaded", function () {
         let index = 0;
         let new_dict = jatos.componentJsonInput;
         let rating_container = document.createElement('div');
-        let vekValue = document.getElementById('vek').value;
-        let zemeValue = document.getElementById('zeme').value;
         let container = document.getElementById('main-container'); // Get the div
         final_values = {}
-        final_values['vek'] = vekValue;
-        final_values['zeme'] = zemeValue;
         final_values['screenWidth'] = window.screen.width;
         final_values['screenHeight'] = window.screen.height;
         let kategories = new_dict["kategorie"]
         let images_select = new_dict["obrázky"]
         let category = jatos.urlQueryParameters.category
-        let selected_descriptions = selectDescriptions(kategories, category, 3);
+        let categories_dict = kategories[category]
+        let numbers_array = [];
+
+        if (jatos.urlQueryParameters.descriptionNumber === "1") {
+            numbers_array = [0, 3, 6]
+        } 
+        else if (jatos.urlQueryParameters.descriptionNumber === "2") {
+            numbers_array = [1, 4, 7]
+        }
+        else if (jatos.urlQueryParameters.descriptionNumber === "3") {
+            numbers_array = [2, 5, 8]
+        }
+        console.log(numbers_array)
+
+        document.getElementById('vek').addEventListener('change', function(e) {
+            let value = e.target.value;
+            if (value < 18 || value > 99) {
+                alert('Prosím vyplňte platný věk.');
+                e.target.value = '';
+            }
+        });
         
+        function appending_descriptions(descriptions, array) {
+
+            let category_array = []
+            for ( let i = 0; i < array.length; i++) {
+                let nadpis = Object.keys(descriptions)[array[i]]
+                let popis = descriptions[nadpis]
+                console.log(nadpis, popis)
+                category_array.push({category: nadpis, description: popis})
+            }
+            return category_array
+        }
+
+        let selected_descriptions = appending_descriptions(categories_dict, numbers_array)
 
         function instructions_shower(event) {
         var vek = document.getElementById('vek').value;
         var zeme = document.getElementById('zeme').value;
         
+
         if (!vek || !zeme) {
             event.preventDefault();
-                alert('Prosím vyplňtě políčka pro pokračování.');
+                alert('Prosím vyplňte políčka pro pokračování.');
         } else {
             document.querySelector('#instrukce_div').style.display = 'block';
             let instrukce_div = document.querySelector('#instrukce_div')
@@ -122,6 +152,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function instructions_category_shower () {
+            let vekValue = document.getElementById('vek').value;
+            let zemeValue = document.getElementById('zeme').value;
+            let pohlaviValue = document.getElementById('pohlavi').value;
+            final_values['vek'] = vekValue;
+            final_values['zeme'] = zemeValue;
+            final_values['pohlavi'] = pohlaviValue;
             document.querySelector('#instrukce_category_div').style.display = 'block';
             document.querySelector('#example_div').style.display = 'none';
             let instrukce_div = document.querySelector('#instrukce_category_div')
@@ -284,14 +320,23 @@ document.addEventListener("DOMContentLoaded", function () {
             rating_container.appendChild(bigsliderDiv);
             rating_container.classList.add('container');
             rating_container.classList.add('container-style')
-            let path = category + '/';
+            let path;
             let image_container = document.createElement('div');
             image_container.id = 'image_container';
             let imgElement = document.createElement('img');
-            let image = image_array[index].image;
+            let image;
+            if ([27, 55, 83, 111].includes(index)) {
+                let catch_trials = ['catch1.png', 'catch2.png', 'catch3.png', 'catch4.png'];
+                let randomIndex = Math.floor(Math.random() * catch_trials.length);
+                image = catch_trials[randomIndex];
+                path = "catch_trials/"
+            } else {
+                path = category + '/'
+                image = image_array[index].image;
+            }
             imgElement.src = path + image; 
-                    imgElement.style.width = '40vw';  
-                    imgElement.style.height = '30em';
+                    imgElement.style.width = 'auto';  
+                    imgElement.style.height = 'auto';
                     image_container.appendChild(imgElement);
                     rating_container.appendChild(image_container);
 
@@ -510,7 +555,6 @@ document.addEventListener("DOMContentLoaded", function () {
             };
             });   
 
-
             function selectFromAll(images, numImages, category) {
                 let categoryImages = images[category];
                 let selectedImages = [];
@@ -524,18 +568,4 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 return selectedImages;
             }
-
-    function selectDescriptions(descriptions, category, num_descriptions) {
-        let array = [];
-        console.log(descriptions)
-        while(array.length < num_descriptions){
-            let keys = Object.keys(descriptions[category]);
-            let randomKey = keys[Math.floor(Math.random() * keys.length)];
-            let description = {category: randomKey, description: descriptions[category][randomKey]};
-            if (!array.some(desc => desc.description === description.description)) {
-                array.push(description);
-            }
-        }
-        return array;
-    }
 });
