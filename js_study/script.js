@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector('#first-screen').style.display = 'flex';
         document.querySelector('#instrukce_div').style.display = 'none';
         document.querySelector('#example_div').style.display = 'none';
+        let progressBar = document.getElementById('progressBar');
+        let progressText = document.getElementById('progressText');
         document.querySelector('#instrukce_category_div').style.display = 'none';
         document.querySelector('#endScreen').style.display = 'none';
         
@@ -292,8 +294,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector('#main-container').style.display = 'flex';
         document.querySelector('#instrukce_div').style.display = 'none';
         document.querySelector('#example_div').style.display = 'none';
-        let progressBar = document.getElementById('progressBar');
-        let progressText = document.getElementById('progressText');
         let hodnoceni = document.createElement('span');
         let number_of_images = 140
         let selected_images = selectFromAll(images_select, number_of_images, category);
@@ -305,7 +305,6 @@ document.addEventListener("DOMContentLoaded", function () {
             progressBar.style.width = progress + '%';
             progressText.textContent = progress.toFixed(0) + '%';
         }
-        
         
         function image_slider(image_array, category, index) {
 
@@ -419,32 +418,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     
                     let button_div = document.createElement('div');
                     button_div.id = 'button_div';
-                    container.appendChild(button_div);
+                    bigsliderDiv.appendChild(button_div);
                     let instructions_button_div = document.createElement('div');
                     instructions_button_div.id = 'instructions_button_div';
-                    container.appendChild(instructions_button_div);
+                    bigsliderDiv.appendChild(instructions_button_div);
                     let instructionnumbertwo = document.createElement('div')
-                    container.appendChild(instructionnumbertwo)
-                    
-                    if (index > 0) {
-                        let prevButton = document.createElement('button');
-                        prevButton.innerHTML = 'Předchozí obrázek';
-                        prevButton.id = 'prevButton';
-                        prevButton.classList.add('btn');
-                        button_div.appendChild(prevButton);
-            
-                        document.querySelector('#prevButton').onclick = function() {
-                        rating_container.innerHTML = '';
-                        button_div.innerHTML = '';
-                        instructionnumbertwo.innerHTML = '';
-                        instructions_button_div.innerHTML = '';
-                        jatos.appendResultData(final_values);
-                        console.log(final_values)
-                        index --;
-                        image_slider(selected_images, category, index);
-                        updateProgressBar(index, progressBar);
-                    };
-                    } 
+                    instructions_button_div.appendChild(instructionnumbertwo)
 
                     if (index < selected_images.length - 1) {
                         let nextButton = document.createElement('button');
@@ -469,8 +448,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             jatos.appendResultData(final_values);
                             console.log(final_values)
                             index ++;
-                            image_slider(selected_images, category, index);
                             updateProgressBar(index, progressBar);
+                            image_slider(selected_images, category, index);
                         };
                         }
                     

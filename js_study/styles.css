@@ -257,6 +257,10 @@ input[type='range']::-moz-range-thumb {
     font-size: 12px;
   }
 
+#instructions_button_div {
+  margin-left: 10px;
+}
+
 #nadpisy {
   text-align: left;  
   align-self: flex-start;
